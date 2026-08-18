@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" width="480" height="360" fill="none">
+  <!-- Spot illustration : container ouvert vide, loupe et documents flottants — monochrome navy-300 -->
+  <g stroke="#7C93AB" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+    <!-- Ombre au sol -->
+    <ellipse cx="240" cy="306" rx="150" ry="12" fill="#C7D5E2" opacity="0.35" stroke="none"/>
+
+    <!-- Container ouvert (perspective) -->
+    <path d="M120 140 L300 120 L300 270 L120 290 Z" fill="#E8EEF5" opacity="0.5"/>
+    <path d="M120 140 L300 120 L300 270 L120 290 Z"/>
+    <path d="M120 140 L84 158 L84 296 L120 290"/>
+    <path d="M84 158 L264 138" opacity="0.6"/>
+    <!-- Portes ouvertes -->
+    <path d="M300 120 L362 138 L362 282 L300 270 Z" fill="#E8EEF5" opacity="0.35"/>
+    <path d="M300 120 L362 138 L362 282 L300 270"/>
+    <!-- Rainures -->
+    <path d="M150 136 L150 286 M180 132 L180 282 M210 129 L210 279 M240 126 L240 276 M270 123 L270 273" opacity="0.45"/>
+
+    <!-- Documents flottants -->
+    <g>
+      <rect x="330" y="72" width="52" height="66" rx="6" fill="#FFFFFF" transform="rotate(8 356 105)"/>
+      <path d="M342 92 h26 M342 104 h26 M342 116 h16" transform="rotate(8 356 105)" opacity="0.8"/>
+    </g>
+    <g opacity="0.75">
+      <rect x="88" y="66" width="44" height="56" rx="6" fill="#FFFFFF" transform="rotate(-10 110 94)"/>
+      <path d="M98 84 h20 M98 94 h20 M98 104 h12" transform="rotate(-10 110 94)"/>
+    </g>
+    <g opacity="0.55">
+      <rect x="196" y="48" width="36" height="46" rx="5" fill="#FFFFFF" transform="rotate(-3 214 71)"/>
+      <path d="M204 64 h18 M204 72 h18" transform="rotate(-3 214 71)"/>
+    </g>
+
+    <!-- Loupe -->
+    <circle cx="352" cy="212" r="30" fill="#FFFFFF"/>
+    <circle cx="352" cy="212" r="30"/>
+    <path d="M374 234 L398 258" stroke-width="5"/>
+    <path d="M342 206 a 12 12 0 0 1 12 -8" opacity="0.7"/>
+
+    <!-- Petites étincelles -->
+    <path d="M300 60 v10 M295 65 h10" opacity="0.6"/>
+    <path d="M128 236 v8 M124 240 h8" opacity="0.6"/>
+  </g>
+</svg>

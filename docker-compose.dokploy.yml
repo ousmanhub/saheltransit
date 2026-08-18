@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    environment:
+      - PORT=3000
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true

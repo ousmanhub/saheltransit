@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <!-- Logotype SahelTransit : container stylisé dont la porte forme une flèche -->
+  <g stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+    <rect x="7" y="14" width="42" height="36" rx="4" stroke="#FFFFFF"/>
+    <path d="M16 20v24" stroke="#FFFFFF" opacity="0.55"/>
+    <path d="M24 20v24" stroke="#FFFFFF" opacity="0.55"/>
+    <path d="M32 20v24" stroke="#FFFFFF" opacity="0.55"/>
+    <path d="M38 32h14" stroke="#E8930C"/>
+    <path d="M52 32l-6-6" stroke="#E8930C"/>
+    <path d="M52 32l-6 6" stroke="#E8930C"/>
+    <path d="M11 56h42" stroke="#E8930C" opacity="0.9"/>
+  </g>
+</svg>

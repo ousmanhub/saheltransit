@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  saheltransit:
+    image: saheltransit:qnap
+    container_name: saheltransit
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      # AISSTREAM_API_KEY: ""  # À activer ce soir
+    ports:
+      - "8082:3000"
