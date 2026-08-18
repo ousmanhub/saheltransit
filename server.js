@@ -1,10 +1,73 @@
 const express = require('express');
 const cors = require('cors');
+const crypto = require('crypto');
 const WebSocket = require('ws');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 app.use(express.static('dist'));
+
+// ─── Auth admin ─────────────────────────────────────────────────────────────
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@smartstacks.dev';
+// SHA-256 du mot de passe "AbraCadabra2030" (à révoquer/changer plus tard)
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || 'f8b08132cf3440ad69988f50112bf063abcda3818e6b857af12923eed650da8d';
+const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
+
+const sessions = new Map();
+
+function hashPassword(password) {
+  return crypto.createHash('sha256').update(password).digest('hex');
+}
+
+function generateToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+function authMiddleware(req, res, next) {
+  const token = req.headers.authorization?.replace('Bearer ', '') || req.cookies?.auth_token;
+  if (token && sessions.has(token)) {
+    req.user = sessions.get(token);
+    return next();
+  }
+  res.status(401).json({ error: 'Unauthorized' });
+}
+
+app.options('/api/auth/login', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.status(200).end();
+});
+
+app.post('/api/auth/login', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  const { email, password } = req.body || {};
+  if (email !== ADMIN_EMAIL || hashPassword(password) !== ADMIN_PASSWORD_HASH) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+  const token = generateToken();
+  sessions.set(token, { email, role: 'admin' });
+  res.json({ token, user: { email, role: 'admin' } });
+});
+
+app.get('/api/auth/me', authMiddleware, (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.json({ user: req.user });
+});
+
+app.post('/api/auth/logout', authMiddleware, (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (token) sessions.delete(token);
+  res.json({ success: true });
+});
+
+// ─── Vessels API (protégé) ─────────────────────────────────────────────────
 
 function nmToDegrees(nm, lat) {
   const dLat = nm / 60;
@@ -220,14 +283,14 @@ async function aisstreamVessels(bounds, limit) {
 app.options('/api/vessels', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.status(200).end();
 });
 
-app.get('/api/vessels', async (req, res) => {
+app.get('/api/vessels', authMiddleware, async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   const { lat, lon, radiusNm, limit } = parseQuery(req);
   const bounds = buildBounds(lat, lon, radiusNm);

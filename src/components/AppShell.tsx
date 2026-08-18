@@ -182,7 +182,10 @@ function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (
 
 // ─── AppShell ────────────────────────────────────────────────────────────────
 
+import { useAuth } from '@/lib/auth'
+
 export default function AppShell() {
+  const { logout } = useAuth()
   const { containers, alerts, events, lastSavedAt, markAllAlertsRead } = useStore()
   const [collapsed, setCollapsed] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
@@ -500,13 +503,15 @@ export default function AppShell() {
                 </PopoverContent>
               </Popover>
 
-              {/* Avatar */}
-              <span
-                className="flex size-8 items-center justify-center rounded-full bg-sand-500 text-xs font-bold text-white"
-                title="Mahamat Abakar"
+              {/* Avatar + Déconnexion */}
+              <button
+                type="button"
+                onClick={() => { logout(); window.location.href = '/login' }}
+                className="flex size-8 items-center justify-center rounded-full bg-sand-500 text-xs font-bold text-white hover:bg-sand-600"
+                title="Se déconnecter"
               >
                 MA
-              </span>
+              </button>
             </header>
 
             {/* Contenu */}
