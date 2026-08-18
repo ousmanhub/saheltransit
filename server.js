@@ -11,8 +11,8 @@ app.use(express.static('dist'));
 // ─── Auth admin ─────────────────────────────────────────────────────────────
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@smartstacks.dev';
-// SHA-256 du mot de passe "AbraCadabra2030" (à révoquer/changer plus tard)
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || 'f8b08132cf3440ad69988f50112bf063abcda3818e6b857af12923eed650da8d';
+// SHA-256 du mot de passe "ManicFlower2030" (à révoquer/changer plus tard)
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '9c735c764b62f10575f6cd916e6259255a7b98475b1764b5c509c4c77bb9f98f';
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 
 const sessions = new Map();
